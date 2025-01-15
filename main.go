@@ -10,9 +10,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
-	"github.com/prashant231203/go-Aggregator-project/internal/database"
-
 	_ "github.com/lib/pq"
+	"github.com/prashant231203/go-Aggregator-project/internal/database"
 )
 
 type apiConfig struct {
@@ -42,7 +41,7 @@ func main() {
 		log.Fatal("can't connect to databse")
 	}
 
-	apicfg := apiconfig{
+	apicfg := apiConfig{
 		DB: database.New(conn),
 	}
 
@@ -59,9 +58,9 @@ func main() {
 	}))
 
 	v1Router := chi.NewRouter()
-	v1Router.HandleFunc("/healthz", handlerReadiness)
-	v1Router.HandleFunc("/err", handlerErr)
-	v1Router.HandleFunc("/User", apicfg.handlerCreateUser)
+	v1Router.Get("/healthz", handlerReadiness)
+	v1Router.Get("/err", handlerErr)
+	v1Router.Post("/users", apicfg.handlerCreateUser)
 
 	router.Mount("/v1", v1Router)
 
