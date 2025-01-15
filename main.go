@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,8 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	"github.com/prashant231203/go-Aggregator-project/internal/database"
+
+	_ "github.com/lib/pq"
 )
 
 type apiConfig struct {
@@ -29,6 +32,20 @@ func main() {
 		log.Fatal("PORT is not found in the environment")
 	}
 
+	dbURL := os.Getenv("DB_URL")
+	if dbURL == "" {
+		log.Fatal("DB_URL is not found in the environment")
+	}
+
+	conn, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatal("can't connect to databse")
+	}
+
+	apicfg := apiconfig{
+		DB: database.New(conn),
+	}
+
 	// Set up router
 	router := chi.NewRouter()
 
@@ -44,6 +61,7 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.HandleFunc("/healthz", handlerReadiness)
 	v1Router.HandleFunc("/err", handlerErr)
+	v1Router.HandleFunc("/User", apicfg.handlerCreateUser)
 
 	router.Mount("/v1", v1Router)
 
