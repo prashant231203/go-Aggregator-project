@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/prashant231203/go-Aggregator-project/internal/database"
@@ -11,7 +12,7 @@ import (
 
 func (apicfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
-		name string "name"
+		Name string `json:"name"`
 	}
 	decoder := json.NewDecoder(r.Body)
 
@@ -22,9 +23,16 @@ func (apicfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	apiCfg.DB.CreateUser(r.Context(), database.CreateUserParams{
-		ID: uuid.New(),
+	user, err := apicfg.DB.CreateUser(r.Context(), database.CreateUserParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+		Name:      params.Name,
 	})
+	if err != nil {
+		respondWithError(w, 500, fmt.Sprintf("Error creating user:", err))
+		return
+	}
 
-	respondWithJSON(w, 200, struct{}{})
+	respondWithJSON(w, 200, user)
 }
