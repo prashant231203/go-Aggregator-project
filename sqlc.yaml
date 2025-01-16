@@ -1,8 +1,10 @@
 version: "2"
 sql:
-  - schema: "sql/schema"
-    queries: "sql/queries"
+  - schema: "sql/schema" # Path to your schema (ensure feeds table is defined here)
+    queries: "sql/queries" # Path where feeds.sql is located
     engine: "postgresql"
     gen:
       go:
-        out: "internal/database"
+        out: "internal/database" # Output directory for generated Go files
+        package: "database"
+

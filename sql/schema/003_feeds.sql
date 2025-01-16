@@ -1,12 +1,12 @@
 -- +goose Up
-CREATE TABLE blogfeeds (
-    id UUID PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    name TEXT UNIQUE NOT NULL ,
-    url TEXT UNIQUE NOT NULL,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE
+CREATE TABLE feeds(
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    name TEXT NOT NULL,
+    url TEXT NOT NULL,
+    user_id INTEGER NOT NULL
 );
 
 --+goose Down
-DROP TABLE blogfeeds;
+DROP TABLE feeds;
