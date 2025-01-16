@@ -1,6 +1,8 @@
 -- +goose Up
+DROP TABLE IF EXISTS feeds;
+
 CREATE TABLE feeds(
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     name TEXT NOT NULL,
@@ -8,6 +10,5 @@ CREATE TABLE feeds(
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
-
---+goose Down
-DROP TABLE feeds;
+-- +goose Down
+DROP TABLE IF EXISTS feeds;

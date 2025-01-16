@@ -38,9 +38,5 @@ func (apicfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	respondWithJSON(w, 201, feed)
-}
-
-func (apicfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user database.User) {
-	respondWithJSON(w, 200, databaseUserToUser(feed))
+	respondWithJSON(w, 201, databaseFeedToFeed(feed))
 }
