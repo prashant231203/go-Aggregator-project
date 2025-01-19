@@ -40,3 +40,13 @@ func (apicfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 
 	respondWithJSON(w, 201, databaseFeedToFeed(feed))
 }
+
+func (apicfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request) {
+	feeds, err := apicfg.DB.GetFeeds(r.Context())
+	if err != nil {
+		respondWithError(w, 500, fmt.Sprintf("couldn't get feeds: %v", err))
+		return
+	}
+	respondWithJSON(w, 201, databaseFeedsToFeeds(feeds))
+
+}
