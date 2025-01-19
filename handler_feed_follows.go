@@ -62,7 +62,8 @@ func (apicfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.
 	}
 
 	err = apicfg.DB.DeleteFeedFollow(r.Context(), database.DeleteFeedFollowParams{
-		ID: feedFollowID,
+		ID:     feedFollowID,
+		UserID: user.ID,
 	})
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Couldnt delete feed follow: %v", err))
