@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -46,9 +47,12 @@ func main() {
 		log.Fatal("can't connect to databse")
 	}
 
+	db := database.New(conn)
 	apicfg := apiConfig{
-		DB: database.New(conn),
+		DB: db,
 	}
+
+	go startScraping(db, 10, time.Minute)
 
 	// Set up router
 	router := chi.NewRouter()
