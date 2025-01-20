@@ -97,14 +97,7 @@ Contributions are welcome! If you would like to contribute to the Go Aggregator,
 4. Push your branch to your forked repository.
 5. Create a pull request.
 
-## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize this README to better fit your project's specific needs and details. A well-documented project will help others understand and contribute to your work more effectively.
-``` 
 
 Make sure to replace placeholders like `yourusername`, `your-feed-id`, and any other specific details related to your project.
 
