@@ -54,7 +54,6 @@ func main() {
 
 	go startScraping(db, 10, time.Minute)
 
-	// Set up router
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
@@ -83,10 +82,8 @@ func main() {
 		Addr:    ":" + portString,
 	}
 
-	// Log server start
 	log.Printf("Server starting on port %v", portString)
 
-	// Start the server
 	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
